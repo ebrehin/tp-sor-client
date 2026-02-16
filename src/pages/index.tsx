@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
+import { API_URL } from '../config/api.ts'
+
+interface PollListItem {
+    id: string;
+    title: string;
+    description?: string;
+    is_active: number;
+}
 
 export default function Index() {
-    const [polls, setPolls] = useState<any[]>([])
+    const [polls, setPolls] = useState<PollListItem[]>([])
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('http://localhost:8000/polls')
+            const response = await fetch(`${API_URL}/polls`)
             const data = await response.json()
             if (data.success) {
                 setPolls(data.data)
@@ -21,7 +29,7 @@ export default function Index() {
             <ul>
                 {polls.map((poll) => (
                     <li key={poll.id}>
-                        <Link to={`/polls/${poll.id}`}>{poll.titre}</Link>
+                        <Link to={`/polls/${poll.id}`}>{poll.title}</Link>
                     </li>
                 ))}
             </ul>

@@ -1,15 +1,53 @@
-export const APIErrorCode = {
-  NOT_FOUND: "NOT_FOUND",
-  UNAUTHORIZED: "UNAUTHORIZED",
-  BAD_REQUEST: "BAD_REQUEST",
-  SERVER_ERROR: "SERVER_ERROR",
-} as const;
+import { SQLOutputValue } from "node:sqlite";
 
-export type APIErrorCodeType = typeof APIErrorCode[keyof typeof APIErrorCode];
+export enum APIErrorCode {
+  NOT_FOUND = "NOT_FOUND",
+  UNAUTHORIZED = "UNAUTHORIZED",
+  BAD_REQUEST = "BAD_REQUEST",
+  VALIDATION_ERROR = "VALIDATION_ERROR",
+  SERVER_ERROR = "SERVER_ERROR",
+}
+
+export class APIException extends Error {
+  readonly code: APIErrorCode;
+  readonly status: number;
+
+  constructor(code: APIErrorCode, status: number, message: string) {
+    super(message);
+    this.code = code;
+    this.status = status;
+  }
+}
 
 export interface APIFailure {
   success: false;
-  error: { code: APIErrorCodeType; message: string };
+  error: { code: APIErrorCode; message: string };
+}
+
+// Interfaces de messages 
+// Requête : vote de l'utilisateur
+export interface VoteCastMessage {
+  type: "vote_cast";
+  pollId: string;
+  optionId: string;
+  userId?: string;
+}
+
+// Réponse : accusé de réception
+export interface VoteAckMessage {
+  type: "vote_ack";
+  pollId: string;
+  optionId: string;
+  success: boolean;
+  error?: APIFailure;
+}
+
+// Diffusion : compteurs de votes
+export interface VotesUpdateMessage {
+  type: "votes_update";
+  pollId: string;
+  optionId: string;
+  voteCount: number;
 }
 
 // Interfaces de données
@@ -20,7 +58,7 @@ export interface PollRow {
   created_at: string;
   date_expiration: string | null;
   statut: string;
-  [key: string]: any;
+  [key: string]: SQLOutputValue;
 }
 
 export interface PollOptionRow {
@@ -28,46 +66,11 @@ export interface PollOptionRow {
   intitule: string;
   poll_id: string;
   created_at: string;
-  [key: string]: any;
+  [key: string]: SQLOutputValue;
 }
 
 export interface Poll {
   id: string;
   titre: string;
   options: Array<{ id: string; intitule: string; voteCount: number }>;
-}
-
-// Type Guards
-export function isPollRow(obj: any): obj is PollRow {
-  return (
-    typeof obj?.id === "string" &&
-    typeof obj?.titre === "string" &&
-    (obj?.description === null || typeof obj?.description === "string") &&
-    typeof obj?.created_at === "string" &&
-    (obj?.date_expiration === null || typeof obj?.date_expiration === "string") &&
-    typeof obj?.statut === "string"
-  );
-}
-
-export function isPollOptionRow(obj: any): obj is PollOptionRow {
-  return (
-    typeof obj?.id === "string" &&
-    typeof obj?.intitule === "string" &&
-    typeof obj?.poll_id === "string" &&
-    typeof obj?.created_at === "string"
-  );
-}
-
-export function isPoll(obj: any): obj is Poll {
-  return (
-    typeof obj?.id === "string" &&
-    typeof obj?.titre === "string" &&
-    Array.isArray(obj?.options) &&
-    obj.options.every(
-      (opt: any) =>
-        typeof opt?.id === "string" &&
-        typeof opt?.intitule === "string" &&
-        typeof opt?.voteCount === "number"
-    )
-  );
 }
