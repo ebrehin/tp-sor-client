@@ -1,19 +1,33 @@
-import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from "react-router";
+import { AuthProvider } from "./contexts/AuthProvider.tsx";
+import { RestrictedRoute } from "./pages/Restricted.tsx";
 import Index from "./pages/index.tsx";
 import Poll from "./pages/Poll.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import User from "./pages/User.tsx";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/polls/:selectedPoll" element={<Poll />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/polls/:selectedPoll" element={<Poll />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/me"
+            element={
+              <RestrictedRoute>
+                <User />
+              </RestrictedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

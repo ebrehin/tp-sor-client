@@ -1,5 +1,3 @@
-import { SQLOutputValue } from "node:sqlite";
-
 export enum APIErrorCode {
   NOT_FOUND = "NOT_FOUND",
   UNAUTHORIZED = "UNAUTHORIZED",
@@ -50,27 +48,33 @@ export interface VotesUpdateMessage {
   voteCount: number;
 }
 
-// Interfaces de données
-export interface PollRow {
-  id: string;
-  titre: string;
-  description: string | null;
-  created_at: string;
-  date_expiration: string | null;
-  statut: string;
-  [key: string]: SQLOutputValue;
-}
-
-export interface PollOptionRow {
-  id: string;
-  intitule: string;
-  poll_id: string;
-  created_at: string;
-  [key: string]: SQLOutputValue;
-}
-
+// Interfaces de données (version client - sans SQLOutputValue)
 export interface Poll {
   id: string;
   titre: string;
   options: Array<{ id: string; intitule: string; voteCount: number }>;
+}
+
+// Interfaces d'authentification
+export interface User {
+  id: string;
+  username: string;
+  isAdmin: boolean;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  password: string;
+  isAdmin?: boolean;
 }
