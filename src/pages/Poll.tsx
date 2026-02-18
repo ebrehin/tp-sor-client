@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import type { VoteAckMessage, VotesUpdateMessage } from '../model/interfaces.ts'
 import { API_URL } from '../config/api.ts'
 import { useVoteSocket } from '../hooks/useVoteSocket.ts'
+import Navigation from '../components/Navigation.tsx'
 
 interface PollOption {
   id: string;
@@ -97,11 +98,21 @@ export default function Poll() {
     }, [selectedPoll]);
 
     if (pollState.status === "loading") {
-        return <div>Chargement...</div>;
+        return (
+            <>
+                <Navigation />
+                <div style={{ padding: '20px', textAlign: 'center' }}>Chargement...</div>
+            </>
+        );
     }
 
     if (pollState.status === "error") {
-        return <div>Erreur: {pollState.error}</div>;
+        return (
+            <>
+                <Navigation />
+                <div style={{ padding: '20px', color: 'red' }}>Erreur: {pollState.error}</div>
+            </>
+        );
     }
 
     const poll = pollState.poll;
@@ -114,35 +125,38 @@ export default function Poll() {
     };
 
     return (
-        <div>
-            <h1>{poll.title}</h1>
-            {poll.description && <p>{poll.description}</p>}
-            <div>
-                <p><strong>Status:</strong> {poll.isActive ? 'Active' : 'Inactive'}</p>
-                <p><strong>Created:</strong> {new Date(poll.createdAt).toLocaleDateString('en-US')}</p>
-                {poll.expiresAt && (
-                    <p><strong>Expires:</strong> {new Date(poll.expiresAt).toLocaleDateString('en-US')}</p>
-                )}
-            </div>
+        <>
+            <Navigation />
+            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+                <h1>{poll.title}</h1>
+                {poll.description && <p>{poll.description}</p>}
+                <div>
+                    <p><strong>Status:</strong> {poll.isActive ? 'Active' : 'Inactive'}</p>
+                    <p><strong>Created:</strong> {new Date(poll.createdAt).toLocaleDateString('en-US')}</p>
+                    {poll.expiresAt && (
+                        <p><strong>Expires:</strong> {new Date(poll.expiresAt).toLocaleDateString('en-US')}</p>
+                    )}
+                </div>
 
-            {voteError && <div style={{ color: 'red' }}>Error: {voteError}</div>}
+                {voteError && <div style={{ color: 'red' }}>Error: {voteError}</div>}
 
-            <div style={{ marginTop: '20px' }}>
-                <h2>Options</h2>
-                {poll.options && poll.options.length > 0 ? (
-                    <ul>
-                        {poll.options.map((option) => (
-                            <li key={option.id}>
-                                <button type="button" onClick={() => handleVote(option.id)}>
-                                    {option.text} ({option.voteCount} votes)
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No options available</p>
-                )}
+                <div style={{ marginTop: '20px' }}>
+                    <h2>Options</h2>
+                    {poll.options && poll.options.length > 0 ? (
+                        <ul>
+                            {poll.options.map((option) => (
+                                <li key={option.id}>
+                                    <button type="button" onClick={() => handleVote(option.id)}>
+                                        {option.text} ({option.voteCount} votes)
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No options available</p>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

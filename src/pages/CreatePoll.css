@@ -1,0 +1,108 @@
+/* Page de création de sondage */
+
+.create-poll-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.create-poll-title {
+    /* Placeholder pour le titre de la page */
+}
+
+.create-poll-form {
+    /* Placeholder pour le formulaire */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.options-container {
+    /* Placeholder pour la section des options */
+}
+
+.option-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.option-input {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.remove-option-btn {
+    padding: 8px 12px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-option-btn:hover {
+    background: #c82333;
+}
+
+.add-option-btn {
+    padding: 8px 16px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-option-btn:hover {
+    background: #545b62;
+}
+
+.form-error {
+    padding: 10px;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    color: #842029;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+
+.submit-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}

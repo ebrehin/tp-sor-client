@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import { API_URL } from '../config/api.ts'
 import { useAuth } from '../hooks/useAuth.ts'
+import Navigation from '../components/Navigation.tsx'
 
 interface PollListItem {
     id: string;
@@ -12,7 +13,7 @@ interface PollListItem {
 
 export default function Index() {
     const [polls, setPolls] = useState<PollListItem[]>([])
-    const { user, logout } = useAuth()
+    const { user } = useAuth()
 
     useEffect(() => {
         (async () => {
@@ -24,66 +25,41 @@ export default function Index() {
         })();
     }, []);
 
-    const handleLogout = () => {
-        logout()
-        globalThis.location.reload()
-    }
-
     return (
         <main id="content">
-            <nav style={{ marginBottom: '20px', padding: '10px', borderBottom: '1px solid #ccc' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <Link to="/" style={{ marginRight: '15px', fontWeight: 'bold' }}>Home</Link>
-                    </div>
-                    <div>
-                        {user ? (
-                            <>
-                                <span style={{ marginRight: '15px' }}>Welcome, {user.username}!</span>
-                                <Link to="/me" style={{ marginRight: '15px' }}>My Profile</Link>
-                                <button type="button" onClick={handleLogout} style={{ padding: '5px 10px', cursor: 'pointer' }}>
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <Link to="/login" style={{ marginRight: '15px' }}>Login</Link>
-                                <Link to="/register">Register</Link>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </nav>
+            <Navigation />
 
-            <h1>Polls</h1>
-            <p>Click on a poll below to participate.</p>
-            
-            {user && (
-                <div style={{ marginBottom: '20px' }}>
-                    <Link 
-                        to="/polls/create" 
-                        style={{ 
-                            display: 'inline-block',
-                            padding: '10px 20px', 
-                            background: '#007bff', 
-                            color: 'white', 
-                            textDecoration: 'none',
-                            borderRadius: '4px',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        + Créer un nouveau sondage
-                    </Link>
-                </div>
-            )}
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+                <h1>Polls</h1>
+                <p>Click on a poll below to participate.</p>
+                
+                {user && (
+                    <div style={{ marginBottom: '20px' }}>
+                        <Link 
+                            to="/polls/create" 
+                            style={{ 
+                                display: 'inline-block',
+                                padding: '10px 20px', 
+                                background: '#007bff', 
+                                color: 'white', 
+                                textDecoration: 'none',
+                                borderRadius: '4px',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            + Créer un nouveau sondage
+                        </Link>
+                    </div>
+                )}
 
-            <ul>
-                {polls.map((poll) => (
-                    <li key={poll.id}>
-                        <Link to={`/polls/${poll.id}`}>{poll.title}</Link>
-                    </li>
-                ))}
-            </ul>
+                <ul>
+                    {polls.map((poll) => (
+                        <li key={poll.id}>
+                            <Link to={`/polls/${poll.id}`}>{poll.title}</Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </main>
     )
 }

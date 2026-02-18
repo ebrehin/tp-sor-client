@@ -1,0 +1,48 @@
+/* Page de visualisation d'un sondage */
+
+.poll-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.poll-title {
+    /* Placeholder pour le titre du sondage */
+}
+
+.poll-description {
+    /* Placeholder pour la description */
+}
+
+.poll-meta {
+    /* Placeholder pour les métadonnées (status, date, etc.) */
+}
+
+.poll-error {
+    color: red;
+}
+
+.poll-loading {
+    padding: 20px;
+    text-align: center;
+}
+
+.poll-options {
+    margin-top: 20px;
+}
+
+.poll-options h2 {
+    /* Placeholder pour le titre des options */
+}
+
+.poll-options ul {
+    /* Placeholder pour la liste des options */
+}
+
+.poll-option-button {
+    /* Placeholder pour les boutons de vote */
+}
+
+.poll-option-button:hover {
+    /* Placeholder pour l'effet hover */
+}

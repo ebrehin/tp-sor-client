@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { API_URL } from '../config/api.ts';
 import { useAuth } from '../hooks/useAuth.ts';
+import Navigation from '../components/Navigation.tsx';
 
 export default function CreatePoll() {
     const [title, setTitle] = useState('');
@@ -85,94 +86,93 @@ export default function CreatePoll() {
     }
 
     return (
-        <main id="content" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-            <nav style={{ marginBottom: '20px' }}>
-                <Link to="/">← Retour à l'accueil</Link>
-            </nav>
+        <>
+            <Navigation />
+            <main id="content" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+                <h1>Créer un nouveau sondage</h1>
 
-            <h1>Créer un nouveau sondage</h1>
+                <form onSubmit={handleSubmit}>
+                    <div style={{ marginBottom: '15px' }}>
+                        <label htmlFor="title" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                            Titre du sondage *
+                        </label>
+                        <input
+                            type="text"
+                            id="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Ex: Quel est votre langage préféré ?"
+                            style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                            disabled={isLoading}
+                        />
+                    </div>
 
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="title" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                        Titre du sondage *
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Ex: Quel est votre langage préféré ?"
-                        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
-                        disabled={isLoading}
-                    />
-                </div>
+                    <div style={{ marginBottom: '15px' }}>
+                        <label htmlFor="description" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                            Description (optionnelle)
+                        </label>
+                        <textarea
+                            id="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Ajoutez des détails supplémentaires..."
+                            rows={3}
+                            style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                            disabled={isLoading}
+                        />
+                    </div>
 
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="description" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                        Description (optionnelle)
-                    </label>
-                    <textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Ajoutez des détails supplémentaires..."
-                        rows={3}
-                        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
-                        disabled={isLoading}
-                    />
-                </div>
-
-                <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                        Options * (minimum 2)
-                    </label>
-                    {options.map((option, index) => (
-                        <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                            <input
-                                type="text"
-                                value={option}
-                                onChange={(e) => updateOption(index, e.target.value)}
-                                placeholder={`Option ${index + 1}`}
-                                style={{ flex: 1, padding: '8px', fontSize: '16px' }}
-                                disabled={isLoading}
-                            />
-                            {options.length > 2 && (
-                                <button
-                                    type="button"
-                                    onClick={() => removeOption(index)}
-                                    style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                            Options * (minimum 2)
+                        </label>
+                        {options.map((option, index) => (
+                            <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                <input
+                                    type="text"
+                                    value={option}
+                                    onChange={(e) => updateOption(index, e.target.value)}
+                                    placeholder={`Option ${index + 1}`}
+                                    style={{ flex: 1, padding: '8px', fontSize: '16px' }}
                                     disabled={isLoading}
-                                >
-                                    ✕
-                                </button>
-                            )}
+                                />
+                                {options.length > 2 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeOption(index)}
+                                        style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                                        disabled={isLoading}
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={addOption}
+                            style={{ padding: '8px 16px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                            disabled={isLoading}
+                        >
+                            + Ajouter une option
+                        </button>
+                    </div>
+
+                    {error && (
+                        <div style={{ padding: '10px', background: '#f8d7da', border: '1px solid #f5c2c7', borderRadius: '4px', marginBottom: '15px', color: '#842029' }}>
+                            {error}
                         </div>
-                    ))}
+                    )}
+
                     <button
-                        type="button"
-                        onClick={addOption}
-                        style={{ padding: '8px 16px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                        type="submit"
+                        style={{ padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%' }}
                         disabled={isLoading}
                     >
-                        + Ajouter une option
+                        {isLoading ? 'Création en cours...' : 'Créer le sondage'}
                     </button>
-                </div>
-
-                {error && (
-                    <div style={{ padding: '10px', background: '#f8d7da', border: '1px solid #f5c2c7', borderRadius: '4px', marginBottom: '15px', color: '#842029' }}>
-                        {error}
-                    </div>
-                )}
-
-                <button
-                    type="submit"
-                    style={{ padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%' }}
-                    disabled={isLoading}
-                >
-                    {isLoading ? 'Création en cours...' : 'Créer le sondage'}
-                </button>
-            </form>
-        </main>
+                </form>
+            </main>
+        </>
     );
 }

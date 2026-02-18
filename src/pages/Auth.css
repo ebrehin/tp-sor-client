@@ -1,0 +1,58 @@
+/* Pages d'authentification (Login & Register) */
+
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.auth-title {
+    /* Placeholder pour le titre */
+}
+
+.auth-form {
+    /* Placeholder pour le formulaire */
+}
+
+.auth-form-group {
+    margin-bottom: 15px;
+}
+
+.auth-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 8px;
+}
+
+.auth-error {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.auth-submit-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.auth-footer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.auth-link {
+    color: #646cff;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}

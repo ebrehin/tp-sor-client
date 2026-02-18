@@ -1,0 +1,135 @@
+/* Page de profil utilisateur */
+
+.user-profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.user-profile-title {
+    /* Placeholder pour le titre */
+}
+
+.user-info-card {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.user-info-title {
+    /* Placeholder pour le titre de la section info */
+}
+
+.user-polls-section {
+    /* Placeholder pour la section des sondages */
+}
+
+.user-polls-title {
+    /* Placeholder pour le titre des sondages */
+}
+
+.user-polls-empty {
+    /* Placeholder pour l'état vide */
+}
+
+.create-first-poll-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.create-first-poll-btn:hover {
+    background: #0056b3;
+}
+
+.create-new-poll-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.create-new-poll-btn:hover {
+    background: #0056b3;
+}
+
+.user-polls-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.poll-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.poll-card.active {
+    background-color: #f9f9f9;
+}
+
+.poll-card.inactive {
+    background-color: #e0e0e0;
+}
+
+.poll-card-title {
+    /* Placeholder pour le titre du sondage */
+}
+
+.poll-card-description {
+    /* Placeholder pour la description */
+}
+
+.poll-card-meta {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.poll-card-status {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.poll-card-link {
+    color: #646cff;
+}
+
+.delete-poll-btn {
+    padding: 5px 10px;
+    margin-top: 10px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-poll-btn:hover {
+    background: #c82333;
+}
+
+.delete-poll-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.user-loading,
+.user-error,
+.user-no-data {
+    padding: 20px;
+}
+
+.user-error {
+    color: red;
+}
