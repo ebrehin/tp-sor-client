@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 
 import type { VoteAckMessage, VotesUpdateMessage } from "../model/interfaces.ts";
 import { WS_URL } from "../config/api.ts";
+import { useAuth } from "./useAuth.ts";
 
 // Définition du hook, qui prend en paramètre l'identifiant du sondage courant, et les deux fonctions à exécuter à la réception de messages du serveur (respectivement `votes_update` et `vote_ack`)
 export function useVoteSocket(
@@ -16,6 +17,9 @@ export function useVoteSocket(
 ) {
   // Le hook maintient une référence au WebSocket courant
   const socketRef = useRef<WebSocket | null>(null);
+  
+  // Récupérer l'utilisateur connecté
+  const { user } = useAuth();
   
   // Utiliser des refs pour les callbacks afin d'éviter de recréer la connexion WebSocket à chaque rendu
   const onUpdateRef = useRef(onUpdate);
@@ -82,17 +86,18 @@ export function useVoteSocket(
       return { success: false, error: "Not connected" };
     }
 
-    // On envoie le message sur le WebSocket
+    // On envoie le message sur le WebSocket avec l'userId si disponible
     ws.send(
       JSON.stringify({
         type: "vote_cast",
         pollId,
         optionId,
+        userId: user?.id, // Ajouter l'ID de l'utilisateur connecté
       }),
     );
 
     return { success: true };
-  }, [pollId]);
+  }, [pollId, user]);
 
   // Le hook retourne une fonction `vote` que l'on appelle dans le composant pour envoyer un message `vote_cast`
   return { vote };
