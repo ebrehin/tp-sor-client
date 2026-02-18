@@ -24,7 +24,8 @@ export default function User() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const { authFetch, logout, user } = useAuth();
+  const [deletingPollId, setDeletingPollId] = useState<string | null>(null);
+  const { authFetch, logout } = useAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -51,7 +52,39 @@ export default function User() {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "/";
+    globalThis.location.href = "/";
+  };
+
+  const handleDeletePoll = async (pollId: string, pollTitle: string) => {
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer le sondage "${pollTitle}" ? Cette action est irréversible.`)) {
+      return;
+    }
+
+    setDeletingPollId(pollId);
+
+    try {
+      const response = await authFetch(`${API_URL}/polls/${pollId}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Erreur lors de la suppression");
+      }
+
+      // Mettre à jour l'état local en retirant le sondage supprimé
+      if (userData) {
+        setUserData({
+          ...userData,
+          polls: userData.polls.filter(poll => poll.id !== pollId),
+        });
+      }
+    } catch (err) {
+      alert(`Erreur: ${err instanceof Error ? err.message : "Erreur inconnue"}`);
+    } finally {
+      setDeletingPollId(null);
+    }
   };
 
   if (loading) {
@@ -70,7 +103,7 @@ export default function User() {
     <div style={{ maxWidth: "800px", margin: "50px auto", padding: "20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
         <h1>My Profile</h1>
-        <button onClick={handleLogout} style={{ padding: "10px 20px", cursor: "pointer" }}>
+        <button type="button" onClick={handleLogout} style={{ padding: "10px 20px", cursor: "pointer" }}>
           Logout
         </button>
       </div>
@@ -87,38 +120,88 @@ export default function User() {
       <div>
         <h2>My Polls ({userData.polls.length})</h2>
         {userData.polls.length === 0 ? (
-          <p>You haven't created any polls yet.</p>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-            {userData.polls.map((poll) => (
-              <div
-                key={poll.id}
-                style={{
-                  padding: "15px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  backgroundColor: poll.is_active ? "#f9f9f9" : "#e0e0e0",
-                }}
-              >
-                <h3>{poll.title}</h3>
-                {poll.description && <p>{poll.description}</p>}
-                <p style={{ fontSize: "0.9em", color: "#666" }}>
-                  Created: {new Date(poll.created_at).toLocaleDateString()}
-                </p>
-                {poll.expires_at && (
-                  <p style={{ fontSize: "0.9em", color: "#666" }}>
-                    Expires: {new Date(poll.expires_at).toLocaleDateString()}
-                  </p>
-                )}
-                <p style={{ fontSize: "0.9em", fontWeight: "bold" }}>
-                  Status: {poll.is_active ? "Active" : "Inactive"}
-                </p>
-                <a href={`/polls/${poll.id}`} style={{ color: "#646cff" }}>
-                  View Poll
-                </a>
-              </div>
-            ))}
+          <div>
+            <p>You haven't created any polls yet.</p>
+            <a 
+              href="/polls/create" 
+              style={{ 
+                display: 'inline-block',
+                padding: '10px 20px',
+                marginTop: '10px',
+                background: '#007bff',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '4px',
+                fontWeight: 'bold'
+              }}
+            >
+              + Create your first poll
+            </a>
           </div>
+        ) : (
+          <>
+            <a 
+              href="/polls/create" 
+              style={{ 
+                display: 'inline-block',
+                padding: '8px 16px',
+                marginBottom: '15px',
+                background: '#007bff',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '4px',
+                fontWeight: 'bold'
+              }}
+            >
+              + Create new poll
+            </a>
+            <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+              {userData.polls.map((poll) => (
+                <div
+                  key={poll.id}
+                  style={{
+                    padding: "15px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    backgroundColor: poll.is_active ? "#f9f9f9" : "#e0e0e0",
+                  }}
+                >
+                  <h3>{poll.title}</h3>
+                  {poll.description && <p>{poll.description}</p>}
+                  <p style={{ fontSize: "0.9em", color: "#666" }}>
+                    Created: {new Date(poll.created_at).toLocaleDateString()}
+                  </p>
+                  {poll.expires_at && (
+                    <p style={{ fontSize: "0.9em", color: "#666" }}>
+                      Expires: {new Date(poll.expires_at).toLocaleDateString()}
+                    </p>
+                  )}
+                  <p style={{ fontSize: "0.9em", fontWeight: "bold" }}>
+                    Status: {poll.is_active ? "Active" : "Inactive"}
+                  </p>
+                  <a href={`/polls/${poll.id}`} style={{ color: "#646cff" }}>
+                    View Poll
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleDeletePoll(poll.id, poll.title)}
+                    style={{
+                      padding: "5px 10px",
+                      marginTop: "10px",
+                      background: "#dc3545",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                    disabled={deletingPollId === poll.id}
+                  >
+                    {deletingPollId === poll.id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -6,6 +6,7 @@ import Poll from "./pages/Poll.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import User from "./pages/User.tsx";
+import CreatePoll from "./pages/CreatePoll.tsx";
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/polls/create" element={<CreatePoll />} />
           <Route path="/polls/:selectedPoll" element={<Poll />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

@@ -57,6 +57,26 @@ export default function Index() {
 
             <h1>Polls</h1>
             <p>Click on a poll below to participate.</p>
+            
+            {user && (
+                <div style={{ marginBottom: '20px' }}>
+                    <Link 
+                        to="/polls/create" 
+                        style={{ 
+                            display: 'inline-block',
+                            padding: '10px 20px', 
+                            background: '#007bff', 
+                            color: 'white', 
+                            textDecoration: 'none',
+                            borderRadius: '4px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        + Créer un nouveau sondage
+                    </Link>
+                </div>
+            )}
+
             <ul>
                 {polls.map((poll) => (
                     <li key={poll.id}>
