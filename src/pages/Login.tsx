@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth.ts";
 import { API_URL } from "../config/api.ts";
 import Navigation from "../components/Navigation.tsx";
 import type { LoginRequest, AuthResponse } from "../model/interfaces.ts";
+import './Auth.css';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -53,11 +54,11 @@ export default function Login() {
   return (
     <>
       <Navigation />
-      <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px" }}>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "15px" }}>
-            <label htmlFor="username" style={{ display: "block", marginBottom: "5px" }}>
+      <div className="auth-container">
+        <h1 className="auth-title">Login</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-form-group">
+            <label htmlFor="username" className="auth-label">
               Username:
             </label>
             <input
@@ -66,11 +67,11 @@ export default function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="auth-input"
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
-            <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>
+          <div className="auth-form-group">
+            <label htmlFor="password" className="auth-label">
               Password:
             </label>
             <input
@@ -79,25 +80,25 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="auth-input"
             />
           </div>
           {error && (
-            <div style={{ color: "red", marginBottom: "15px" }}>
+            <div className="auth-error">
               {error}
             </div>
           )}
           <button
             type="submit"
             disabled={loading}
-            style={{ width: "100%", padding: "10px", cursor: "pointer" }}
+            className="auth-submit-btn"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <p style={{ marginTop: "15px", textAlign: "center" }}>
+        <p className="auth-footer">
           Don't have an account?{" "}
-          <a href="/register" style={{ color: "#646cff" }}>
+          <a href="/register" className="auth-link">
             Register here
           </a>
         </p>

@@ -36,13 +36,24 @@
 }
 
 .poll-options ul {
-    /* Placeholder pour la liste des options */
+    list-style: none;
+    padding: 0;
+}
+
+.poll-options li {
+    margin-bottom: 10px;
 }
 
 .poll-option-button {
-    /* Placeholder pour les boutons de vote */
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .poll-option-button:hover {
-    /* Placeholder pour l'effet hover */
+    background: #0056b3;
 }

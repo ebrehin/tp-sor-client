@@ -7,11 +7,15 @@
 }
 
 .polls-header {
-    /* Placeholder pour le style du titre */
+    /* Style personnalisable pour le titre */
 }
 
 .polls-description {
-    /* Placeholder pour la description */
+    /* Style personnalisable pour la description */
+}
+
+.create-poll-section {
+    margin-bottom: 20px;
 }
 
 .create-poll-button {
@@ -22,7 +26,6 @@
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
-    margin-bottom: 20px;
 }
 
 .create-poll-button:hover {
@@ -30,13 +33,19 @@
 }
 
 .polls-list {
-    /* Placeholder pour la liste des sondages */
+    list-style: none;
+    padding: 0;
 }
 
 .polls-list li {
-    /* Placeholder pour les items de la liste */
+    margin-bottom: 10px;
 }
 
 .polls-list a {
-    /* Placeholder pour les liens vers les sondages */
+    color: #007bff;
+    text-decoration: none;
+}
+
+.polls-list a:hover {
+    text-decoration: underline;
 }

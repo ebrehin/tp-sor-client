@@ -7,7 +7,7 @@
 }
 
 .user-profile-title {
-    /* Placeholder pour le titre */
+    /* Style personnalisable pour le titre */
 }
 
 .user-info-card {
@@ -18,19 +18,19 @@
 }
 
 .user-info-title {
-    /* Placeholder pour le titre de la section info */
+    /* Style personnalisable pour le titre de la section info */
 }
 
 .user-polls-section {
-    /* Placeholder pour la section des sondages */
+    /* Style personnalisable pour la section des sondages */
 }
 
 .user-polls-title {
-    /* Placeholder pour le titre des sondages */
+    /* Style personnalisable pour le titre des sondages */
 }
 
 .user-polls-empty {
-    /* Placeholder pour l'état vide */
+    /* Style personnalisable pour l'état vide */
 }
 
 .create-first-poll-btn {
@@ -73,6 +73,8 @@
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .poll-card.active {
@@ -84,11 +86,11 @@
 }
 
 .poll-card-title {
-    /* Placeholder pour le titre du sondage */
+    /* Style personnalisable pour le titre du sondage */
 }
 
 .poll-card-description {
-    /* Placeholder pour la description */
+    /* Style personnalisable pour la description */
 }
 
 .poll-card-meta {
@@ -103,6 +105,11 @@
 
 .poll-card-link {
     color: #646cff;
+    text-decoration: none;
+}
+
+.poll-card-link:hover {
+    text-decoration: underline;
 }
 
 .delete-poll-btn {

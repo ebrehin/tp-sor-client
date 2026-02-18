@@ -4,6 +4,7 @@ import type { VoteAckMessage, VotesUpdateMessage } from '../model/interfaces.ts'
 import { API_URL } from '../config/api.ts'
 import { useVoteSocket } from '../hooks/useVoteSocket.ts'
 import Navigation from '../components/Navigation.tsx'
+import './Poll.css'
 
 interface PollOption {
   id: string;
@@ -101,7 +102,7 @@ export default function Poll() {
         return (
             <>
                 <Navigation />
-                <div style={{ padding: '20px', textAlign: 'center' }}>Chargement...</div>
+                <div className="poll-loading">Chargement...</div>
             </>
         );
     }
@@ -110,7 +111,7 @@ export default function Poll() {
         return (
             <>
                 <Navigation />
-                <div style={{ padding: '20px', color: 'red' }}>Erreur: {pollState.error}</div>
+                <div className="poll-error">Erreur: {pollState.error}</div>
             </>
         );
     }
@@ -127,10 +128,10 @@ export default function Poll() {
     return (
         <>
             <Navigation />
-            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-                <h1>{poll.title}</h1>
-                {poll.description && <p>{poll.description}</p>}
-                <div>
+            <div className="poll-container">
+                <h1 className="poll-title">{poll.title}</h1>
+                {poll.description && <p className="poll-description">{poll.description}</p>}
+                <div className="poll-meta">
                     <p><strong>Status:</strong> {poll.isActive ? 'Active' : 'Inactive'}</p>
                     <p><strong>Created:</strong> {new Date(poll.createdAt).toLocaleDateString('en-US')}</p>
                     {poll.expiresAt && (
@@ -138,15 +139,15 @@ export default function Poll() {
                     )}
                 </div>
 
-                {voteError && <div style={{ color: 'red' }}>Error: {voteError}</div>}
+                {voteError && <div className="poll-error">Error: {voteError}</div>}
 
-                <div style={{ marginTop: '20px' }}>
+                <div className="poll-options">
                     <h2>Options</h2>
                     {poll.options && poll.options.length > 0 ? (
                         <ul>
                             {poll.options.map((option) => (
                                 <li key={option.id}>
-                                    <button type="button" onClick={() => handleVote(option.id)}>
+                                    <button type="button" onClick={() => handleVote(option.id)} className="poll-option-button">
                                         {option.text} ({option.voteCount} votes)
                                     </button>
                                 </li>

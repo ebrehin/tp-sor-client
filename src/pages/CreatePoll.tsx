@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { API_URL } from '../config/api.ts';
 import { useAuth } from '../hooks/useAuth.ts';
 import Navigation from '../components/Navigation.tsx';
+import './CreatePoll.css';
 
 export default function CreatePoll() {
     const [title, setTitle] = useState('');
@@ -88,12 +89,12 @@ export default function CreatePoll() {
     return (
         <>
             <Navigation />
-            <main id="content" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-                <h1>Créer un nouveau sondage</h1>
+            <main id="content" className="create-poll-container">
+                <h1 className="create-poll-title">Créer un nouveau sondage</h1>
 
-                <form onSubmit={handleSubmit}>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label htmlFor="title" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                <form onSubmit={handleSubmit} className="create-poll-form">
+                    <div className="form-group">
+                        <label htmlFor="title" className="form-label">
                             Titre du sondage *
                         </label>
                         <input
@@ -102,13 +103,13 @@ export default function CreatePoll() {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Ex: Quel est votre langage préféré ?"
-                            style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                            className="form-input"
                             disabled={isLoading}
                         />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label htmlFor="description" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                    <div className="form-group">
+                        <label htmlFor="description" className="form-label">
                             Description (optionnelle)
                         </label>
                         <textarea
@@ -117,30 +118,30 @@ export default function CreatePoll() {
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Ajoutez des détails supplémentaires..."
                             rows={3}
-                            style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                            className="form-textarea"
                             disabled={isLoading}
                         />
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                    <div className="options-group">
+                        <label className="form-label">
                             Options * (minimum 2)
                         </label>
                         {options.map((option, index) => (
-                            <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                            <div key={index} className="option-input-group">
                                 <input
                                     type="text"
                                     value={option}
                                     onChange={(e) => updateOption(index, e.target.value)}
                                     placeholder={`Option ${index + 1}`}
-                                    style={{ flex: 1, padding: '8px', fontSize: '16px' }}
+                                    className="option-input"
                                     disabled={isLoading}
                                 />
                                 {options.length > 2 && (
                                     <button
                                         type="button"
                                         onClick={() => removeOption(index)}
-                                        style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                                        className="remove-option-btn"
                                         disabled={isLoading}
                                     >
                                         ✕
@@ -151,7 +152,7 @@ export default function CreatePoll() {
                         <button
                             type="button"
                             onClick={addOption}
-                            style={{ padding: '8px 16px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                            className="add-option-btn"
                             disabled={isLoading}
                         >
                             + Ajouter une option
@@ -159,14 +160,14 @@ export default function CreatePoll() {
                     </div>
 
                     {error && (
-                        <div style={{ padding: '10px', background: '#f8d7da', border: '1px solid #f5c2c7', borderRadius: '4px', marginBottom: '15px', color: '#842029' }}>
+                        <div className="form-error">
                             {error}
                         </div>
                     )}
 
                     <button
                         type="submit"
-                        style={{ padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer', width: '100%' }}
+                        className="submit-btn"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Création en cours...' : 'Créer le sondage'}

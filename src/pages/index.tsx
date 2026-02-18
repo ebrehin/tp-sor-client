@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { API_URL } from '../config/api.ts'
 import { useAuth } from '../hooks/useAuth.ts'
 import Navigation from '../components/Navigation.tsx'
+import './Index.css'
 
 interface PollListItem {
     id: string;
@@ -29,30 +30,19 @@ export default function Index() {
         <main id="content">
             <Navigation />
 
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-                <h1>Polls</h1>
-                <p>Click on a poll below to participate.</p>
+            <div className="polls-container">
+                <h1 className="polls-header">Polls</h1>
+                <p className="polls-description">Click on a poll below to participate.</p>
                 
                 {user && (
-                    <div style={{ marginBottom: '20px' }}>
-                        <Link 
-                            to="/polls/create" 
-                            style={{ 
-                                display: 'inline-block',
-                                padding: '10px 20px', 
-                                background: '#007bff', 
-                                color: 'white', 
-                                textDecoration: 'none',
-                                borderRadius: '4px',
-                                fontWeight: 'bold'
-                            }}
-                        >
+                    <div className="create-poll-section">
+                        <Link to="/polls/create" className="create-poll-button">
                             + Créer un nouveau sondage
                         </Link>
                     </div>
                 )}
 
-                <ul>
+                <ul className="polls-list">
                     {polls.map((poll) => (
                         <li key={poll.id}>
                             <Link to={`/polls/${poll.id}`}>{poll.title}</Link>
