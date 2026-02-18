@@ -39,6 +39,10 @@ export function useVoteSocket(
     const ws = new WebSocket(`${WS_URL}/votes/${pollId}`);
     socketRef.current = ws;
 
+    ws.onopen = () => {
+      // Connexion établie
+    };
+
     // Événement : lors de la réception d'un message, on exécute la fonction appropriée en fonction de son type
     ws.onmessage = (e) => {
       const msg = JSON.parse(e.data);
@@ -57,7 +61,7 @@ export function useVoteSocket(
     };
     
     ws.onclose = () => {
-      console.log("WebSocket closed");
+      // WebSocket fermé
     };
 
     // Fonction de nettoyage exécutée au démontage du composant :
